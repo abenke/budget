@@ -32,9 +32,11 @@ function ($, _, Marionette, TransactionView) {
 		},
 
 		onCurrentBalanceChange: function(e) {
-			this.model.set({
-				currentBalance: parseInt($(e.currentTarget).val())
-			});
+			var self = this;
+			clearTimeout(this.currentBalanceTimeout);
+			this.currentBalanceTimeout = setTimeout(function() {
+				self.model.set('currentBalance', parseInt($(e.currentTarget).val()) || 0);
+			}, 150);
 		}
 	});
 });

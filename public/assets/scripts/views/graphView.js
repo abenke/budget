@@ -19,7 +19,7 @@ function ($, _, Marionette, Graph) {
 		},
 
 		initialize: function() {
-			this.windowEnd = moment().add('weeks', 57);
+			this.windowEnd = moment().add('weeks', 60);
 			this.listenTo(this.model, "change:data", this.updateGraph);
 		},
 
@@ -35,13 +35,13 @@ function ($, _, Marionette, Graph) {
 				x_margin: X_MARGIN,
 				y_margin: Y_MARGIN,
 				selector: '.svg-area',
-				data: this.model.extrapolate(end),
+				data: this.model.extrapolate(end).pluck('balance'),
 				windowEnd: this.windowEnd
 			});
 		},
 
 		updateGraph: function() {
-			this.graph.update(this.model._data);
+			this.graph.update(this.model._data.pluck('balance'));
 		}
 	});
 });

@@ -3,7 +3,7 @@ define(
 "d3"
 ],
 function() {
-	var DURATION = 125;
+	var DURATION = 250;
 
 	var Graph = function(options) {
 		this.width = options.width;
@@ -76,7 +76,7 @@ function() {
 			this.line = d3.svg.line()
 				.interpolate("step-after")
 	    		.x(function(d,i) { return self.x(i); })
-	    		.y(function(d,i) { return console.log(d.get('balance')); self.y(d.get('balance')); });
+	    		.y(function(d,i) { return self.y(d); });
 
 	    	this.chart.append("path")
 	    		.attr("class", "balance")
@@ -101,10 +101,8 @@ function() {
 
 		_updateScalesDomain: function(data) {
 			var subData = this._subData(data);
-
-			yGetter = function(p) { return p.get('balance'); },
-				minY = _.min(subData, yGetter).get('balance'),
-				maxY = _.max(subData, yGetter).get('balance');
+				minY = _.min(subData),
+				maxY = _.max(subData);
 
 			this.x.domain([0, this._maxIndex()]);
 			this.y.domain([1.05*maxY, minY * (minY < 0 ? 1.1 : 0.9)]);
@@ -141,7 +139,7 @@ function() {
             	"g.y-axis": function() { this.call(self.yAxis); },
             	"path.balance": (path_update = function() { this.attr('d', self.line(self._subData())); }) // use old data
             }, function(func, selector) {
-            	func.apply(self.chart.select(selector).transition().duration(DURATION).ease('in'));
+            	func.apply(self.chart.selectAll(selector).transition().duration(DURATION).ease('in'));
             });
 
             // Part 2

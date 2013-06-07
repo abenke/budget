@@ -171,12 +171,14 @@ function(_, moment, Backbone) {
 		},
 
 		initialize: function() {
-			this.on('change:currentBalance', function(model, previous) {
+			this.on('change:currentBalance', function() {
+				var diff = this.get('currentBalance') - this._previousAttributes['currentBalance'];
+
 				this._data.each(function(d) {
-					d.set('balance', d.get('balance') + (model.get('currentBalance') - previous));
+					d.set('balance', d.get('balance') + diff);
 				});
 				this.trigger('change:data');
-			}, this);
+			});
 		},
 
 		extrapolate: function(until) {

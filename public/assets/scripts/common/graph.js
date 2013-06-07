@@ -26,28 +26,33 @@ function() {
 			
 			this._updateScalesRange();
 			this._updateScalesDomain();
+
+			this.line = d3.svg.line()
+				.interpolate("step-after")
+	    		.x(function(d,i) { return self.x(i); })
+	    		.y(function(d,i) { return self.y(d); });
+
+	    	this.inverted_line = d3.svg.line()
+				.interpolate("step-after")
+	    		.x(function(d,i) { return self.x(d); })
+	    		.y(function(d,i) { return self.y(i); });
 		},
 
 		_initAxes : function() {
 			self = this;
 
-			this.chart.selectAll("line.y")
-				.data(this.y.ticks(10))
-				.enter().append("line")
-				.attr("class", "y")
-				.attr("x1", this.x.range()[0])
-				.attr("x2", this.x.range()[1])
-				.attr("y1", this.y)
-				.attr("y2", this.y);
+			var yTicks = this.y.ticks(10),
+				xTicks = this.x.ticks(25);
 
-			this.chart.selectAll("line.x")
-				.data(this.x.ticks(25))
-				.enter().append("line")
-				.attr("class", "x")
-				.attr("x1", this.x)
-				.attr("x2", this.x)
-				.attr("y1", this.y.range()[0])
-				.attr("y2", this.y.range()[1]);
+			this.chart.selectAll("path.y")
+				.data(yTicks).enter().append('path')
+	    		.attr("class", "y")
+	    		.attr("d", function(d) { return self.line(_.map(_.range(self._maxIndex()), function() { return d; })); });
+
+	    	// this.chart.selectAll("line.x")
+	    	// 	.data(xTicks).enter().append('line')
+	    	// 	.attr("class", "x")
+	    	// 	.attr("d", function(d) { return self.inverted_line(_.map(_.range(self._maxIndex()), function() { return d; })); });
 
 			this.xAxis = d3.svg.axis()
 							.scale(this.x)
@@ -73,10 +78,6 @@ function() {
 
 		_initLine: function() {
 			var self = this;
-			this.line = d3.svg.line()
-				.interpolate("step-after")
-	    		.x(function(d,i) { return self.x(i); })
-	    		.y(function(d,i) { return self.y(d); });
 
 	    	this.chart.append("path")
 	    		.attr("class", "balance")
@@ -137,6 +138,7 @@ function() {
             _.each({
             	"g.x-axis": function() { this.call(self.xAxis); }, 
             	"g.y-axis": function() { this.call(self.yAxis); },
+            	"path.y": function() { this.attr('d', function(d) { return self.line(_.map(_.range(self._maxIndex()), function() { return d; })); }) },
             	"path.balance": (path_update = function() { this.attr('d', self.line(self._subData())); }) // use old data
             }, function(func, selector) {
             	func.apply(self.chart.selectAll(selector).transition().duration(DURATION).ease('in'));

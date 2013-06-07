@@ -115,7 +115,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   background-image: linear-gradient(top, #e6e6e6, #cdcdcd);
   *zoom: 1;
   filter: progid:DXImageTransform.Microsoft.gradient(gradientType=0, startColorstr='#FFE6E6E6', endColorstr='#FFCDCDCD');
-  border-bottom: 1px solid #bbb;
+  border-bottom: 1px solid #bbbbbb;
 }
 #sideBar > .side-bar > .transactions > .transaction p {
   font-size: 13px;
@@ -196,7 +196,7 @@ line {
   stroke: black;
 }
 
-line.x, line.y {
+path.x, path.y {
   stroke: gray;
   stroke-width: 0.5;
 }

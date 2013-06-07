@@ -155,7 +155,7 @@ function(_, moment, Backbone) {
 			every: 1
 		}, {
 			name: 'NJ House',
-			amount: -145,
+			amount: -400,
 			start: moment('2013-06-22'),
 			end: moment('2013-06-23'),
 			unit: 'months',
@@ -166,7 +166,7 @@ function(_, moment, Backbone) {
 
 	return Backbone.Model.extend({
 		defaults: {
-			currentBalance: 5361,
+			currentBalance: 4531,
 			transactions: new Backbone.Collection(transactions)
 		},
 

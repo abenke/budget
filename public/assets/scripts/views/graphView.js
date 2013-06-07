@@ -7,8 +7,7 @@ define(
 ],
 function ($, _, Marionette, Graph) {
 	var X_MARGIN = 40,
-		Y_MARGIN = 80,
-		HORIZON_HEIGHT = 60;
+		Y_MARGIN = 80;
 
 	return Marionette.ItemView.extend({
 		template: 'graph/graph',
@@ -31,7 +30,7 @@ function ($, _, Marionette, Graph) {
 			this.graph = new Graph({
 				now: now,
 				width: this.$el.width(),
-				height: this.$el.height() - HORIZON_HEIGHT,
+				height: this.$el.height(),
 				x_margin: X_MARGIN,
 				y_margin: Y_MARGIN,
 				selector: '.svg-area',

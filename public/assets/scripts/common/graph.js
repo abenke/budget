@@ -31,28 +31,10 @@ function() {
 				.interpolate("step-after")
 	    		.x(function(d,i) { return self.x(i); })
 	    		.y(function(d,i) { return self.y(d); });
-
-	    	this.inverted_line = d3.svg.line()
-				.interpolate("step-after")
-	    		.x(function(d,i) { return self.x(d); })
-	    		.y(function(d,i) { return self.y(i); });
 		},
 
 		_initAxes : function() {
 			self = this;
-
-			var yTicks = this.y.ticks(10),
-				xTicks = this.x.ticks(25);
-
-			this.chart.selectAll("path.y")
-				.data(yTicks).enter().append('path')
-	    		.attr("class", "y")
-	    		.attr("d", function(d) { return self.line(_.map(_.range(self._maxIndex()), function() { return d; })); });
-
-	    	// this.chart.selectAll("line.x")
-	    	// 	.data(xTicks).enter().append('line')
-	    	// 	.attr("class", "x")
-	    	// 	.attr("d", function(d) { return self.inverted_line(_.map(_.range(self._maxIndex()), function() { return d; })); });
 
 			this.xAxis = d3.svg.axis()
 							.scale(this.x)
@@ -63,6 +45,7 @@ function() {
 			this.yAxis = d3.svg.axis()
 							.scale(this.y)
 							.orient('right')
+							.tickSize(-1*(this.width - this.y_margin - this.x_margin), 0)
 							.tickFormat(function(y) { return '$' + y.toFixed(0); });
 
 			this.chart.append('g')
@@ -124,6 +107,8 @@ function() {
 
 		update: function(data) {
 			var self = this;
+
+			this.data = data || this.data;
 			
 			// Part 1
 			/////////
@@ -138,7 +123,6 @@ function() {
             _.each({
             	"g.x-axis": function() { this.call(self.xAxis); }, 
             	"g.y-axis": function() { this.call(self.yAxis); },
-            	"path.y": function() { this.attr('d', function(d) { return self.line(_.map(_.range(self._maxIndex()), function() { return d; })); }) },
             	"path.balance": (path_update = function() { this.attr('d', self.line(self._subData())); }) // use old data
             }, function(func, selector) {
             	func.apply(self.chart.selectAll(selector).transition().duration(DURATION).ease('in'));
@@ -147,10 +131,10 @@ function() {
             // Part 2
             /////////
 
-            setTimeout(function() {
-            	self.data = data || self.data;
-            	path_update.apply(self.chart.select("path.balance").transition().duration(DURATION*2).ease('in'));
-            }, DURATION);
+            // setTimeout(function() {
+            // 	self.data = data || self.data;
+            // 	path_update.apply(self.chart.select("path.balance").transition().duration(DURATION*2).ease('in'));
+            // }, DURATION);
 		}
 
 	});

@@ -6,6 +6,8 @@
 //$no-rep-layout: smart;
 //@import "no-rep/*.png";
 
+@import "_bootstrap";
+
 @import "_constants";
 @import "_common";
 
@@ -19,6 +21,7 @@ body {
 	font-family: helvetica, arial, sans-serif;
 
 	#mainContent {
+		overflow-y: hidden;
 		@include clearfix;
 		width: $app-width;
 		height: $app-height;
@@ -31,6 +34,7 @@ body {
 }
 
 h2 {
+	line-height: 16px;
 	font-size: 16px;
 	font-weight: bold;
 	color: $color-text;

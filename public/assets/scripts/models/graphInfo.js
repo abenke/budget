@@ -166,7 +166,7 @@ function(_, moment, Backbone) {
 
 	return Backbone.Model.extend({
 		defaults: {
-			currentBalance: 4531,
+			currentBalance: 1000,
 			transactions: new Backbone.Collection(transactions)
 		},
 

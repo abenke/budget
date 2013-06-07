@@ -38,7 +38,6 @@ function() {
 
 			this.xAxis = d3.svg.axis()
 							.scale(this.x)
-							.ticks(25)
 							.orient('bottom')
 							.tickFormat(function(x) { return self.now.clone().add('days', x).format('M/D'); });
 

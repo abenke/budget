@@ -1,0 +1,59 @@
+@import "compass/reset";
+@import "compass/css3";
+@import "compass/css3/appearance";
+@import "compass/css3/user-interface";
+
+//$no-rep-layout: smart;
+//@import "no-rep/*.png";
+
+@import "_constants";
+@import "_common";
+
+@import "_sideBar";
+@import "_graphArea";
+
+body {
+	@include image('repeating/maze_white');
+	background-repeat: repeat;
+	min-width: $app-width;
+	font-family: helvetica, arial, sans-serif;
+
+	#mainContent {
+		@include clearfix;
+		width: $app-width;
+		height: $app-height;
+		margin: 35px auto 0;
+
+		@include cross_browser_linear_gradient(#fff, #f0f0f0);
+		@include border-radius(3px);
+		border: 1px solid $color-border;
+	}
+}
+
+h2 {
+	font-size: 16px;
+	font-weight: bold;
+	color: $color-text;
+	@include text_shadow(white);
+	margin: 5px 0;
+}
+
+path {
+    stroke: black;
+    stroke-width: 2;
+    fill: none;
+}
+ 
+line {
+    stroke: black;
+}
+
+line.x, line.y {
+	stroke: gray;
+	stroke-width: 0.5;
+}
+ 
+text {
+    font-family: Arial;
+    font-size: 9pt;
+}

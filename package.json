@@ -1,0 +1,11 @@
+{
+  "name": "budget",
+  "description": "Grunt dependencies for various site related tasks",
+  "version": "0.0.1",
+  "dependencies": {
+    "grunt-requirejs": "0.2.x",
+    "grunt-compass": "0.3.x",
+    "grunt-css": "0.3.x",
+    "express": "*"
+  }
+}

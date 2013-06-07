@@ -1,0 +1,44 @@
+#sideBar {
+	float: left;
+	height: 100%;
+	border-right: 1px solid $color-border;
+
+	& > .side-bar {
+		float: left;
+		height: 100%;
+		width: $sideBar-width;
+
+		& > .current-balance {
+			position: relative;
+			z-index: 1;
+			padding: 15px;
+			@include bevel_edge(bottom);
+			@include box-shadow(0 2px 6px #aaa);
+
+			input {
+				width: 80px;
+				line-height: 14px;
+				font-size: 14px;
+				text-align: right;
+				margin-left: 3px;
+			}
+		}
+
+		& > .transactions {
+			overflow: scroll;
+			height: 492px;
+
+			& > .transaction {
+				padding: 5px 10px;
+				height: 40px;
+				@include cross_browser_linear_gradient(#e6e6e6, #cdcdcd);
+				border-bottom: 1px solid #bbb;
+
+				p {
+					font-size: 13px;
+					@include text_shadow(white);
+				}
+			}
+		}
+	}
+}

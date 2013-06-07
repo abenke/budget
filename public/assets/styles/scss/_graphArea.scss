@@ -1,0 +1,25 @@
+#graphArea {
+	float: left;
+	height: 100%;
+
+	& > .graph {
+		width: $graph-width;
+		height: 100%;
+	}
+
+	.horizon-slider {
+		margin: 5px 80px 0 40px;
+		background: #ddd;
+
+		.ui-slider-range-min {
+			background: #cde;
+		}
+
+		.ui-slider-handle {
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			border: 1px solid $color-border;
+		}
+	}
+}

@@ -1,0 +1,73 @@
+// Mixins
+/////////
+
+@mixin image($img, $ext: 'png') {
+    background-image: url(#{$img-dir}#{$img}.#{$ext});
+}
+
+@mixin clearfix {
+  &:before, &:after { content: ""; display: table; }
+  &:after { clear: both; }
+  *zoom: 1;
+}
+
+@mixin text_shadow($color: white) {
+    text-shadow:0 1px 0 $color;
+}
+
+@mixin bevel_edge($pos, $color: #aaa, $reverse: false, $shadow: white) {
+
+    @if $reverse {
+        $temp: $color;
+        $color: $shadow;
+        $shadow: $temp;
+    }
+
+    border-#{$pos}: 1px solid $color;
+    @if $pos == left   { box-shadow: -1px 0 0 $shadow; }
+    @if $pos == right  { box-shadow: 1px  0 0 $shadow; }
+    @if $pos == top    { box-shadow: 0 -1px 0 $shadow; }
+    @if $pos == bottom { box-shadow: 0  1px 0 $shadow; }
+}
+
+@mixin cross_browser_linear_gradient($a, $b, $pos: top) {
+    // fallback
+    background-color: $a;
+
+    // Chrome, Safari, Firefox
+    @include background-image(linear-gradient($pos, $a, $b));
+
+    // this big block of code is for IE8
+    // IE8 doesn't like FF or 00 in its gradients, so we change to FE and 01
+    // e.g. #FF00FF won't work in IE8 (renders black), so we make it #FE01FE
+    @if   red($a) == 255 { $a: rgb(    254, green($a), blue($a)); }
+    @if green($a) == 255 { $a: rgb(red($a),       254, blue($a)); }
+    @if  blue($a) == 255 { $a: rgb(red($a), green($a),      254); }
+
+    @if   red($a) ==   0 { $a: rgb(      1, green($a), blue($a)); }
+    @if green($a) ==   0 { $a: rgb(red($a),         1, blue($a)); }
+    @if  blue($a) ==   0 { $a: rgb(red($a), green($a),        1); }
+
+    @if   red($b) == 255 { $b: rgb(    254, green($b), blue($b)); }
+    @if green($b) == 255 { $b: rgb(red($b),       254, blue($b)); }
+    @if  blue($b) == 255 { $b: rgb(red($b), green($b),      254); }
+
+    @if   red($b) ==   0 { $b: rgb(      1, green($b), blue($b)); }
+    @if green($b) ==   0 { $b: rgb(red($b),         1, blue($b)); }
+    @if  blue($b) ==   0 { $b: rgb(red($b), green($b),        1); }
+
+    $ie-pos: vertical;
+    @if $pos == left {
+        $ie-pos: horizontal;
+    }
+
+    // IE
+    @include filter-gradient(rgba($a, 1), rgba($b, 1), $ie-pos);
+}
+
+// Conveience Classes
+/////////////////////
+
+.clearfix { @include clearfix(); }
+.left { float: left; }
+.right { float: right; }

@@ -3,9 +3,10 @@ define(
 "jquery",
 "underscore",
 "marionette",
-"views/sideBar/transactionView"
+"views/sideBar/transactionView",
+"views/sidebar/addTransactionView"
 ],
-function ($, _, Marionette, TransactionView) {
+function ($, _, Marionette, TransactionView, AddTransactionView) {
 	return Marionette.Layout.extend({
 		
 		template: 'sideBar/sideBar',
@@ -14,6 +15,7 @@ function ($, _, Marionette, TransactionView) {
 		ui: {
 			currentBalance: "input[name=currentBalance]",
 			addTxnArea: ".add-transaction",
+			addTxnRegion: ".add-transaction-region",
 			addTxnButton: "button.add-txn",
 			closeButton: "button.close"
 		},
@@ -49,8 +51,18 @@ function ($, _, Marionette, TransactionView) {
 
 			this.animating = true;
 
+			var atView = new AddTransactionView();
+			atView.on('add:transaction', function(txn) {
+				this.hideAddTransactionView();
+				this.model.get('transactions').add(txn);
+			}, this);
+
+			this.addTransactionRegion.show(atView);
 			this.ui.addTxnButton.fadeOut();
+
 			this.ui.addTxnArea.animate({height: '200px'}, function() {
+				self.ui.addTxnArea.css('height', 'auto');
+				self.ui.addTxnRegion.fadeIn();
 				self.ui.closeButton.fadeIn(function() {
 					self.animating = false;
 				});
@@ -66,8 +78,13 @@ function ($, _, Marionette, TransactionView) {
 
 			this.animating = true;
 
+
+			this.ui.addTxnRegion.fadeOut();
 			this.ui.closeButton.fadeOut();
+
+			this.ui.addTxnArea.css('height', this.ui.addTxnArea.height());
 			this.ui.addTxnArea.animate({height: '30px'}, function() {
+				self.addTransactionRegion.close();
 				self.ui.addTxnButton.fadeIn(function() {
 					self.animating = false;
 				});

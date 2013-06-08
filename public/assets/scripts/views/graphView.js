@@ -18,24 +18,19 @@ function ($, _, Marionette, Graph) {
 		},
 
 		initialize: function() {
-			this.windowEnd = moment().add('weeks', 60);
 			this.listenTo(this.model, "change:data", this.updateGraph);
 		},
 
 		onShow: function() {
-			var now = moment(),
-				start = this.windowEnd.clone(),
-				end = now.clone().add('months', 14);
-
 			this.graph = new Graph({
-				now: now,
+				now: this.model.get('start'),
 				width: this.$el.width(),
 				height: this.$el.height(),
 				x_margin: X_MARGIN,
 				y_margin: Y_MARGIN,
 				selector: '.svg-area',
-				data: this.model.extrapolate(end).pluck('balance'),
-				windowEnd: this.windowEnd
+				data: this.model.extrapolate().pluck('balance'),
+				windowEnd: this.model.get('end')
 			});
 		},
 

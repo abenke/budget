@@ -26,7 +26,11 @@ function ($, _, Backbone, Marionette, GraphInfo, GraphView, SideBarView) {
 
     // gets triggered when app starts
     App.on("start", function() {
-        App.graphInfo = new GraphInfo();
+        var now = moment().startOf('day');
+        App.graphInfo = new GraphInfo({
+            start: now,
+            end: now.clone().add('months', 14)
+        });
 
         App.sideBar.show(new SideBarView({ model: App.graphInfo }));
         App.graphArea.show(new GraphView({ model: App.graphInfo }));

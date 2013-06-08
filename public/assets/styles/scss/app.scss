@@ -7,6 +7,7 @@
 //@import "no-rep/*.png";
 
 @import "_bootstrap";
+@import "_bootstrap.datepicker";
 
 @import "_constants";
 @import "_common";
@@ -40,6 +41,10 @@ h2 {
 	color: $color-text;
 	@include text_shadow(white);
 	margin: 5px 0;
+}
+
+input[type="text"] {
+	margin-bottom: 0;
 }
 
 path {

@@ -167,7 +167,7 @@ function(_, moment, Backbone) {
 	return Backbone.Model.extend({
 		defaults: {
 			currentBalance: 1000,
-			transactions: new Backbone.Collection(transactions)
+			transactions: new Backbone.Collection([])
 		},
 
 		initialize: function() {
@@ -179,20 +179,39 @@ function(_, moment, Backbone) {
 				});
 				this.trigger('change:data');
 			});
+
+			this.get('transactions').on('add', function(txn) {
+				var total_change = 0;
+				
+				if (txn.get('oneTime')) {
+					this._data.each(function(d, i) {
+						var date = this.get('start').clone().add('days', i);
+						if (date.isSame(txn.get('start'))) {
+							total_change += txn.get('amount');
+						}
+
+						d.set('balance', d.get('balance') + total_change);
+
+					}, this);
+					this.trigger('change:data');
+
+				} else {
+					console.log('why are you here');
+				}
+			}, this);
 		},
 
-		extrapolate: function(until) {
+		extrapolate: function() {
 			var balance = this.get('currentBalance'),
-				now = moment().startOf('day'),
 				data = new (Backbone.Collection.extend({
 					comparator: function(point) {
 						return point.get('date').toDate().getTime();
 					}
 				}))(),
-				date = now.clone();
+				date = this.get('start').clone();
 
 			var last_point;
-			while (date <= until) {
+			while (date <= this.get('end')) {
 				total_amount = 0;
 
 				this.get('transactions').each(function(t, i) {
@@ -200,12 +219,16 @@ function(_, moment, Backbone) {
 						end = t.get('end') ? t.get('end').startOf('day').clone() : null;
 
 					// if date is in range of transaction
-					while (start <= date  && (!end || date < end)) {
+					var oneTimeBreak = false;
+					while (!oneTimeBreak && (start <= date  && (!end || date < end))) {
 						if (start.isSame(date)) {
 							total_amount += t.get('amount');
+							t.get('oneTime') && (oneTimeBreak = true);
 						}
 
-						start = start.add(t.get('unit'), t.get('every'));
+						if (!t.get('oneTime')) {
+							start = start.add(t.get('unit'), t.get('every'));
+						}
 					}
 				});
 

@@ -1,10 +1,8 @@
 require.config({
-	shim: {
-		'jquery.ui': ['jquery']
-    },
 	paths: {
 		jquery: "libs/jquery",
-		'jquery.ui': "libs/jquery.ui",
+		bootstrap: "libs/bootstrap",
+		'bootstrap.datepicker': "libs/bootstrap.datepicker",
 		underscore: "libs/underscore",
 		moment: "libs/moment",
 		backbone: "libs/backbone",
@@ -19,7 +17,8 @@ require(
 [
 "jquery",
 "app",
-"jquery.ui",
+"bootstrap",
+"bootstrap.datepicker",
 "common/overrides"
 ],
 function($, App) {

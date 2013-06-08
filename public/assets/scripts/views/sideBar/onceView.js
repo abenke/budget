@@ -6,7 +6,6 @@ define(
 ],
 function ($, _, Marionette) {
 	return Marionette.Layout.extend({
-		template: 'sideBar/once',
 		
 		ui: {
 		},

@@ -187,7 +187,7 @@ function(_, moment, Backbone) {
 					this._data.each(function(d, i) {
 						var date = this.get('start').clone().add('days', i);
 						if (date.isSame(txn.get('start'))) {
-							total_change += txn.get('amount');
+							total_change += txn.signedAmount();
 						}
 
 						d.set('balance', d.get('balance') + total_change);

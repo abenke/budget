@@ -1,13 +1,13 @@
 <div class="top-part">
 	<div class="current-balance clearfix">
 		<h2 class="left">Current Balance</h2>
-		<span class="right">$<input type="text" name="currentBalance" /></span>
+		<span class="right">$<input type="number" name="currentBalance" /></span>
 	</div>
 	<div class="add-transaction clearfix">
 		<button class="btn btn-success add-txn">+ Add Transaction</button>
 		<button class="right close">x</button>
-		<div class="add-transaction-region">
-		</div>
+		<div class="add-transaction-region"></div>
+		<button class="btn btn-primary add" data-loading-text="Adding...">Add</button>
 	</div>
 </div>
 <div class="transactions-region"></div>

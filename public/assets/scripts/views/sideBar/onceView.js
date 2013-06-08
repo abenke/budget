@@ -2,34 +2,17 @@ define(
 [
 "jquery",
 "underscore",
-"marionette"
+"marionette",
+"moment",
 ],
-function ($, _, Marionette) {
+function ($, _, Marionette, moment) {
 	return Marionette.Layout.extend({
-		
-		ui: {
-		},
-
-		regions: {
-		},
-
-		events: {
-		},
-
-		initialize: function() {
-		},
 
 		onRender: function() {
 			var self = this;
-
 			this.$el.datepicker().on('changeDate', function(e) {
-				self.trigger('change:date', e.date);
+				self.model.set('start', moment(e.date));
 			});
-
-			this.trigger('change:date', this.$el.datepicker('getDate'));
-		},
-
-		onShow: function() {
 		}
 	});
 });

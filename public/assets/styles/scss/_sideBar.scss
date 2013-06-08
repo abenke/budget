@@ -73,14 +73,31 @@
 						button.once {
 							width: 66px;
 						}
-
-						button.add {
-							width: 100%;
-						}
 					}
 
 					.frequency-region {
 						display: none;
+
+						input[type="number"] {
+							width: 40px;
+						}
+
+						.dropdown-label {
+							width: 47px;
+						}
+
+						.every-section {
+							float: right;
+							@include clearfix();
+							width: 154px;
+						}
+
+						.input-append.date {
+							padding: 0;
+							input {
+								width: 100px;
+							}
+						}
 
 						.datepicker-inline {
 							width: 185px;
@@ -93,6 +110,11 @@
 							}
 						}
 					}
+				}
+
+				button.add {
+					display: none;
+					width: 100%;
 				}
 			}
 		}

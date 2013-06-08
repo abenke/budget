@@ -3,10 +3,11 @@ define(
 "jquery",
 "underscore",
 "marionette",
+"models/transaction",
 "views/sideBar/transactionView",
-"views/sidebar/addTransactionView"
+"views/sideBar/addTransactionView"
 ],
-function ($, _, Marionette, TransactionView, AddTransactionView) {
+function ($, _, Marionette, Transaction, TransactionView, AddTransactionView) {
 	return Marionette.Layout.extend({
 		
 		template: 'sideBar/sideBar',
@@ -17,6 +18,7 @@ function ($, _, Marionette, TransactionView, AddTransactionView) {
 			addTxnArea: ".add-transaction",
 			addTxnRegion: ".add-transaction-region",
 			addTxnButton: "button.add-txn",
+			addButton: "button.add",
 			closeButton: "button.close"
 		},
 
@@ -28,7 +30,8 @@ function ($, _, Marionette, TransactionView, AddTransactionView) {
 		events: {
 			"keyup input[name=currentBalance]": "onCurrentBalanceChange",
 			"click button.add-txn": "showAddTransactionView",
-			"click button.close": "hideAddTransactionView"
+			"click button.close": "hideAddTransactionView",
+			"click button.add": "addTransaction"
 		},
 
 		initialize: function() {
@@ -51,18 +54,14 @@ function ($, _, Marionette, TransactionView, AddTransactionView) {
 
 			this.animating = true;
 
-			var atView = new AddTransactionView();
-			atView.on('add:transaction', function(txn) {
-				this.hideAddTransactionView();
-				this.model.get('transactions').add(txn);
-			}, this);
-
-			this.addTransactionRegion.show(atView);
+			this.transaction = new Transaction();
+			this.addTransactionRegion.show(new AddTransactionView({ model: this.transaction }));
+			
 			this.ui.addTxnButton.fadeOut();
-
 			this.ui.addTxnArea.animate({height: '200px'}, function() {
 				self.ui.addTxnArea.css('height', 'auto');
 				self.ui.addTxnRegion.fadeIn();
+				self.ui.addButton.fadeIn();
 				self.ui.closeButton.fadeIn(function() {
 					self.animating = false;
 				});
@@ -80,6 +79,7 @@ function ($, _, Marionette, TransactionView, AddTransactionView) {
 
 
 			this.ui.addTxnRegion.fadeOut();
+			this.ui.addButton.fadeOut();
 			this.ui.closeButton.fadeOut();
 
 			this.ui.addTxnArea.css('height', this.ui.addTxnArea.height());
@@ -101,6 +101,12 @@ function ($, _, Marionette, TransactionView, AddTransactionView) {
 			this.currentBalanceTimeout = setTimeout(function() {
 				self.model.set('currentBalance', parseInt($(e.currentTarget).val()) || 0);
 			}, 150);
+		},
+
+		addTransaction: function() {
+			this.hideAddTransactionView();
+			this.model.get('transactions').add(this.transaction);
+			this.transaction = undefined;
 		}
 	});
 });

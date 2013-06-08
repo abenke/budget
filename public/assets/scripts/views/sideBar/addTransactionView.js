@@ -3,11 +3,10 @@ define(
 "jquery",
 "underscore",
 "marionette",
-"models/transaction",
 "views/sideBar/recurringView",
 "views/sideBar/onceView"
 ],
-function ($, _, Marionette, Transaction, RecurringView, OnceView) {
+function ($, _, Marionette, RecurringView, OnceView) {
 	return Marionette.Layout.extend({
 		template: 'sideBar/addTransaction',
 		
@@ -16,8 +15,8 @@ function ($, _, Marionette, Transaction, RecurringView, OnceView) {
 			nameInput: '[name="name"]',
 			amountInput: '[name="amount"]',
 			typeGroup: '.type.btn-group',
-			onceButton: '.once.btn',
-			addButton: 'button.add'
+			timeGroup: '.time.btn-group',
+			onceButton: '.once.btn'
 		},
 
 		regions: {
@@ -27,36 +26,25 @@ function ($, _, Marionette, Transaction, RecurringView, OnceView) {
 		events: {
 			"click button.once": "showOnceView",
 			"click button.recurring": "showRecurringView",
-			"click button.add": "addTransaction"
-		},
 
-		initialize: function() {
-			this.model = new Transaction();
-		},
-
-		onRender: function() {
-		},
-
-		onShow: function() {
+			'change input[name="name"]': 'changeName',
+			'click .type.btn-group button': 'changeType',
+			'change input[name="amount"]': 'changeAmount',
+			'click .time.btn-group button': 'changeTime'
 		},
 
 		showOnceView: function(e) {
 			if (this.showingOnce) return;
 			this.showingOnce = true;
 			this.showingRecurring = false;
-
-			var view = new OnceView();
-			view.on('change:date', function(date) {
-				this.date = date;
-			}, this);
-			this._showFrequencyView(view);
+			this._showFrequencyView(new OnceView({ model: this.model }));
 		},
 
 		showRecurringView: function(e) {
 			if (this.showingRecurring) return;
 			this.showingRecurring = true;
 			this.showingOnce = false;
-			this._showFrequencyView(new RecurringView());
+			this._showFrequencyView(new RecurringView({ model: this.model }));
 		},
 
 		_showFrequencyView: function(view) {
@@ -67,21 +55,20 @@ function ($, _, Marionette, Transaction, RecurringView, OnceView) {
 			});
 		},
 
-		addTransaction: function() {
-			this.ui.addButton.button('loading');
+		changeName: function(e) {
+			this.model.set('name', this.ui.nameInput.val());
+		},
 
-			var type = this.ui.typeGroup.find('.active.btn').html(),
-				neg = type.toLowerCase() == 'expense',
-				amount = (neg ? -1 : 1) * Math.abs(parseFloat(this.ui.amountInput.val()) || 0);
+		changeType: function(e) {
+			this.model.set('type', $(e.currentTarget).html().toLowerCase());
+		},
 
-			this.model.set({
-				name: this.ui.nameInput.val(),
-				amount: amount,
-				oneTime: this.ui.onceButton.is('.active'),
-				start: moment(this.date)
-			});
+		changeAmount: function(e) {
+			this.model.set('amount', Math.abs(Math.round(parseFloat(this.ui.amountInput.val())) || 0));
+		},
 
-			this.trigger('add:transaction', this.model);
+		changeTime: function(e) {
+			this.model.set('oneTime', $(e.currentTarget).html() == 'Once');
 		}
 	});
 });

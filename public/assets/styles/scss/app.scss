@@ -43,7 +43,49 @@ h2 {
 	margin: 5px 0;
 }
 
-input[type="text"] {
+.btn-group {
+    display: inline-block;
+    /* IE7 inline-block hack */
+    *display: inline;
+    *zoom: 1;
+
+    .dropdown-toggle {
+        @include border-radius(4px);
+    }
+
+    .dropdown-label, .caret {
+        // font-size: 16px;
+    }
+
+    .dropdown-label {
+        text-align: left;
+        float: left;
+        overflow: hidden;
+    }
+
+    .caret {
+        position: relative;
+        top: 1px;
+        left: 3px;
+        margin-left: 5px;
+    }
+
+    .dropdown-menu {
+        z-index: 16000; // qtip is set at 15000
+        min-width: 100%;
+        max-height: 235px;
+        padding: 10px 0;
+
+        li > a {
+            text-decoration: none;
+            text-shadow: none;
+        }
+    }
+}
+
+input[type="text"],
+input[type="number"],
+.input-append {
 	margin-bottom: 0;
 }
 

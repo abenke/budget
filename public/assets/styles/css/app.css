@@ -6778,24 +6778,24 @@ button.close {
 .datepicker-dropdown:before {
   content: '';
   display: inline-block;
-  border-left: 7px solid transparent;
-  border-right: 7px solid transparent;
-  border-bottom: 7px solid #cccccc;
-  border-bottom-color: rgba(0, 0, 0, 0.2);
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-right: 7px solid #cccccc;
+  border-right-color: rgba(0, 0, 0, 0.2);
   position: absolute;
-  top: -7px;
-  left: 6px;
+  top: 110px;
+  left: -7px;
 }
 
 .datepicker-dropdown:after {
   content: '';
   display: inline-block;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid white;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid white;
   position: absolute;
-  top: -6px;
-  left: 7px;
+  top: 111px;
+  left: -6px;
 }
 
 .datepicker > div {
@@ -7330,11 +7330,32 @@ button.close {
 #sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .input-line button.once {
   width: 66px;
 }
-#sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .input-line button.add {
-  width: 100%;
-}
 #sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region {
   display: none;
+}
+#sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region input[type="number"] {
+  width: 40px;
+}
+#sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region .dropdown-label {
+  width: 47px;
+}
+#sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region .every-section {
+  float: right;
+  *zoom: 1;
+  width: 154px;
+}
+#sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region .every-section:before, #sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region .every-section:after {
+  content: "";
+  display: table;
+}
+#sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region .every-section:after {
+  clear: both;
+}
+#sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region .input-append.date {
+  padding: 0;
+}
+#sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region .input-append.date input {
+  width: 100px;
 }
 #sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region .datepicker-inline {
   width: 185px;
@@ -7342,6 +7363,10 @@ button.close {
 }
 #sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region .datepicker-inline .table-condensed th, #sideBar > .side-bar > .top-part > .add-transaction .add-transaction-region .frequency-region .datepicker-inline .table-condensed td {
   padding: 0;
+}
+#sideBar > .side-bar > .top-part > .add-transaction button.add {
+  display: none;
+  width: 100%;
 }
 #sideBar > .side-bar .transactions-region {
   overflow: scroll;
@@ -7431,7 +7456,44 @@ h2 {
   margin: 5px 0;
 }
 
-input[type="text"] {
+.btn-group {
+  display: inline-block;
+  /* IE7 inline-block hack */
+  *display: inline;
+  *zoom: 1;
+}
+.btn-group .dropdown-toggle {
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+}
+.btn-group .dropdown-label {
+  text-align: left;
+  float: left;
+  overflow: hidden;
+}
+.btn-group .caret {
+  position: relative;
+  top: 1px;
+  left: 3px;
+  margin-left: 5px;
+}
+.btn-group .dropdown-menu {
+  z-index: 16000;
+  min-width: 100%;
+  max-height: 235px;
+  padding: 10px 0;
+}
+.btn-group .dropdown-menu li > a {
+  text-decoration: none;
+  text-shadow: none;
+}
+
+input[type="text"],
+input[type="number"],
+.input-append {
   margin-bottom: 0;
 }
 

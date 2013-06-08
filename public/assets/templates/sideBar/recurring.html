@@ -1,1 +1,23 @@
-Recuring time
+<div class="input-line">
+	<h2 class="left">Every</h2>
+	<div class="every-section">
+		<input type="number" class="left" name="every" min="1" />
+		<%= build_select([ 'Months', 'Weeks', 'Days' ], {
+			'class': 'right unit-selector'
+		}) %>
+	</div>
+</div>
+
+<div class="input-line">
+	<h2 class="left">Start</h2>
+	<div class="right input-append date datepicker start" data-provide="datepicker" data-date-format="dd-mm-yyyy">
+	    <input size="16" type="text" readonly /><span class="add-on"><i class="icon-th"></i></span>
+	</div>
+</div>
+
+<div class="input-line">
+	<h2 class="left">End</h2>
+	<div class="right input-append date datepicker end" data-provide="datepicker" data-date-format="dd-mm-yyyy">
+	    <input size="16" type="text" readonly /><span class="add-on"><i class="icon-th"></i></span>
+	</div>
+</div>

@@ -357,9 +357,10 @@ define(['bootstrap'], function() {
 						}).first().css('z-index'))+10;
 			var offset = this.component ? this.component.parent().offset() : this.element.offset();
 			var height = this.component ? this.component.outerHeight(true) : this.element.outerHeight(true);
+			var width  = this.component ? this.component.parent().outerWidth(true) : this.element.outerWidth(true);
 			this.picker.css({
-				top: offset.top + height,
-				left: offset.left,
+				top: offset.top + height/2 - this.picker.outerHeight(true)/2,
+				left: offset.left + width + 10,
 				zIndex: zIndex
 			});
 		},

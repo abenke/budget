@@ -3,9 +3,10 @@ define(
 "jquery",
 "underscore",
 "marionette",
-"common/graph"
+"common/graph",
+"models/transaction"
 ],
-function ($, _, Marionette, Graph) {
+function ($, _, Marionette, Graph, Transaction) {
 	var X_MARGIN = 40,
 		Y_MARGIN = 80;
 
@@ -29,9 +30,13 @@ function ($, _, Marionette, Graph) {
 				x_margin: X_MARGIN,
 				y_margin: Y_MARGIN,
 				selector: '.svg-area',
-				data: this.model.extrapolate().pluck('balance'),
+				data: this.model._data.pluck('balance'),
 				windowEnd: this.model.get('end')
 			});
+
+			_.each(this.model._transactions, function(txn) {
+				this.model.get('transactions').add(new Transaction(txn));
+			}, this);
 		},
 
 		updateGraph: function() {

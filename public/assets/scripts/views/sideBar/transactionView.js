@@ -60,15 +60,38 @@ function ($, _, Marionette) {
 		},
 
 		ui: {
+			amountArea: '.amount-area',
+			amountInput: 'input[name="amount"]',
+			amountLabel: '.amount-label',
+			pencil: 'i.icon-pencil',
+			okSign: 'i.icon-ok'
 		},
 
 		events: {
+			"click button.edit": "editAmount",
+			'change input[name="amount"]': 'changeAmount'
 		},
 
 		initialize: function() {
+			this.templateHelpers.self = this;
 		},
 
-		onShow: function() {
+		editAmount: function(e) {
+			var actions = [
+				this.editing ? 'show' : 'hide',
+				this.editing ? 'hide' : 'show'
+			];
+
+			this.ui.pencil.css('display', this.editing ? 'inline-block' : 'none');
+			this.ui.okSign.css('display', this.editing ? 'none' : 'inline-block');
+			this.ui.amountLabel[actions[0]]().html(this.templateHelpers.money(this.model.signedAmount()));
+			this.ui.amountInput[actions[1]]().val(this.model.get('amount'));
+
+			this.editing = !this.editing;
+		},
+
+		changeAmount: function(e) {
+			this.model.set('amount', Math.abs(parseFloat(this.ui.amountInput.val()) || 0));
 		}
 	});
 });

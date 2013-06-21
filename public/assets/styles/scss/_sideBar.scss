@@ -124,14 +124,54 @@
 			height: 433px;
 
 			.transaction {
-				padding: 5px 10px;
+				padding: 5px 15px 5px 10px;
 				height: 40px;
 				@include cross_browser_linear_gradient(#e6e6e6, #cdcdcd);
 				border-bottom: 1px solid #bbb;
 
-				p {
-					font-size: 13px;
-					@include text_shadow(white);
+				.left-side {
+					float: left;
+
+					h2 {
+						margin-bottom: 0;
+					}
+
+					span {
+						display: inline-block;
+						margin-bottom: 0;
+						font-size: 13px;
+						@include text_shadow(white);
+						max-width: 135px;
+						height: 20px;
+						overflow: hidden;
+
+					}
+				}
+
+				.amount-area {
+					input {
+						display: none;
+						width: 80px;
+						height: 15px;
+						line-height: 15px;
+						text-align: right;
+					}
+				}
+
+				button.edit {
+					filter: alpha(opacity=100);
+					opacity: 1;
+					height: 14px;
+					margin: 4px 0 0 6px;
+
+					.icon-ok {
+						display: none;
+					}
+
+					&:hover {
+						opacity: 0.4;
+						filter: alpha(opacity=40);
+					}
 				}
 			}
 		}

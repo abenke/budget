@@ -157,12 +157,6 @@ function ($, _, Marionette) {
             }
         },
 
-		initialize: function() {
-		},
-
-		onRender: function() {
-		},
-
 		onShow: function() {
 			var self = this;
 

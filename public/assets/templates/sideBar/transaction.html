@@ -1,2 +1,18 @@
-<h2><%=name %></h2>
-<p><%= money(amount) %> <%= frequency() %></p>
+<div class="clearfix">
+	<div class="left-side">
+		<h2><%=name %></h2>
+		<span> <%= frequency() %></span>
+	</div>
+
+	<button class="right close edit">
+		<i class="icon-pencil"></i>
+		<i class="icon-ok"></i>
+	</button>
+
+	<div class="right amount-area">
+		<h2 class="amount-label">
+			<%= money(self.model.signedAmount()) %>
+		</h2>		
+		<input type="number" name="amount" />
+	</div>
+</div>

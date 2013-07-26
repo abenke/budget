@@ -5,8 +5,7 @@ define(
 "backbone"
 ],
 function(_, moment, Backbone) {
-	var transactions = [
-		{
+	var transactions = [{
 			name: 'Salary',
 			amount: 2369,
 			start: moment('2013-01-01'),
@@ -22,11 +21,10 @@ function(_, moment, Backbone) {
 			type: 'income',
 			unit: 'months',
 			every: 1
-		},
-		{
+		}, {
 			name: 'Rent',
 			amount: 1403,
-			start: moment('2013-01-01'),
+			start: moment('2012-12-26'),
 			end: null,
 			type: 'expense',
 			unit: 'months',
@@ -153,8 +151,16 @@ function(_, moment, Backbone) {
 			every: 2
 		}, {
 			name: 'Betterment',
-			amount: 810,
-			start: moment('2013-07-08'),
+			amount: 375,
+			start: moment('2013-08-05'),
+			end: null,
+			type: 'expense',
+			unit: 'months',
+			every: 1
+		}, {
+			name: 'Betterment',
+			amount: 375,
+			start: moment('2013-08-20'),
 			end: null,
 			type: 'expense',
 			unit: 'months',
@@ -169,19 +175,27 @@ function(_, moment, Backbone) {
 			every: 1
 		}, {
 			name: 'Other Amex',
-			amount: 100,
-			start: moment('2013-01-05'),
+			amount: 433,
+			start: moment('2013-01-11'),
 			end: null,
 			type: 'expense',
-			unit: 'weeks',
+			unit: 'months',
 			every: 1
 		}, {
 			name: 'NJ House',
-			amount: 400,
-			start: moment('2013-06-22'),
-			end: moment('2013-06-23'),
+			amount: 231,
+			start: moment('2013-08-01'),
+			end: moment('2013-08-02'),
 			type: 'expense',
 			unit: 'months',
+			every: 1
+		}, {
+			name: 'Amazon Prime',
+			amount: 79,
+			start: moment('2013-08-11'),
+			end: null,
+			type: 'expense',
+			unit: 'years',
 			every: 1
 		}
 	];

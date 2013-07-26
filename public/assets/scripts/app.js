@@ -29,7 +29,7 @@ function ($, _, Backbone, Marionette, GraphInfo, GraphView, SideBarView) {
         var now = moment().startOf('day');
         App.graphInfo = new GraphInfo({
             start: now,
-            end: now.clone().add('months', 14)
+            end: now.clone().add('months', 12)
         });
 
         App.sideBar.show(new SideBarView({ model: App.graphInfo }));

@@ -184,8 +184,8 @@ function(_, moment, Backbone) {
 		}, {
 			name: 'NJ House',
 			amount: 231,
-			start: moment('2013-08-01'),
-			end: moment('2013-08-02'),
+			start: moment('2013-07-30'),
+			end: moment('2013-07-31'),
 			type: 'expense',
 			unit: 'months',
 			every: 1

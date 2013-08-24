@@ -9,6 +9,8 @@
     "grunt-contrib-watch": "*",
     "grunt-compass": "*",
     "express": "*",
-    "underscore": "*"
+    "underscore": "*",
+    "mongoose": "*",
+    "ejs": "*"
   }
 }

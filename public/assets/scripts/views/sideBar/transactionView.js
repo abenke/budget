@@ -69,7 +69,7 @@ function ($, _, Marionette) {
 
 		events: {
 			"click button.edit": "editAmount",
-			'change input[name="amount"]': 'changeAmount'
+			'keyup input[name="amount"]': 'changeAmount'
 		},
 
 		initialize: function() {

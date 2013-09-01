@@ -34,9 +34,9 @@ function ($, _, Marionette, Graph, Transaction) {
 				windowEnd: this.model.get('end')
 			});
 
-			_.each(this.model._transactions, function(txn) {
-				this.model.get('transactions').add(new Transaction(txn));
-			}, this);
+			// _.each(this.model._transactions, function(txn) {
+			// 	this.model.get('transactions').add(new Transaction(txn));
+			// }, this);
 		},
 
 		updateGraph: function() {

@@ -93,6 +93,10 @@ path {
     stroke: black;
     stroke-width: 2;
     fill: none;
+
+    &.vertical {
+        stroke-width: 2px;
+    }
 }
  
 line {

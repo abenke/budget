@@ -32,8 +32,12 @@ function ($, _, Backbone, Marionette, GraphInfo, GraphView, SideBarView) {
             end: now.clone().add('months', 12)
         });
 
-        App.sideBar.show(new SideBarView({ model: App.graphInfo }));
-        App.graphArea.show(new GraphView({ model: App.graphInfo }));
+        App.graphInfo.fetch({
+            success: function() {
+                App.sideBar.show(new SideBarView({ model: App.graphInfo }));
+                App.graphArea.show(new GraphView({ model: App.graphInfo }));
+            }
+        });
     });
 
     return App;

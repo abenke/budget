@@ -15,6 +15,12 @@ function(_, moment, Backbone) {
 			return sign * (amount === 0 ? 0 : (amount || this.get('amount'))); 
 		},
 
+		toJSON: function() {
+			var attribues = Backbone.Model.prototype.toJSON.call(this);
+			delete attribues._id;
+			return attribues;
+		},
+
 		dates: function(windowStart, windowEnd) {
 			var start = this.get('start'),
 				end = this.get('end') || windowEnd,

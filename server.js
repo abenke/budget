@@ -1,50 +1,66 @@
-var _       = require("underscore"),
-    express = require("express"),
+var _        = require("underscore"),
+    express  = require("express"),
     mongoose = require('mongoose'),
-    app     = express();
+    http     = require('http'),
+    app      = express(),
+    Schema   = mongoose.Schema;
 
 console.log('connecting to mongoDB...');
 var db = mongoose.connect('mongodb://localhost/budget').connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-  // TODO define model
-  // var Post = mongoose.model('Post', { date: Date, text: String });
+  var Budget = mongoose.model('Budget', new Schema({
+    currentBalance: Number,
+    transactions: [new Schema({
+      name: String,
+      amount: Number,
+      start: Date,
+      end: Date,
+      type: String,
+      unit: String,
+      every: Number
+    })]
+  }));
+
+  app.configure(function() {
+    app.set('view engine', 'ejs');
+    app.set('views', __dirname+'/views');
+
+    app.use(express.methodOverride());
+    app.use(express.bodyParser());
+
+    app.use(express.static('public'));
+    app.use(express.logger());
+    app.use(app.router);
+
+    app.use(express.errorHandler({
+      dumpExceptions: true, 
+      showStack: true
+    }));
+  });
 
   app.get("/", function(req, res) {
     res.render('index');
   });
 
   app.get("/api/budget", function(req, res) {
-    TODO
-    // Post.count({}, function(err, count) {
-    //   var body = JSON.stringify({
-    //     name: 'Naive Thoughts',
-    //     num_posts: count
-    //   });
-    //   res.setHeader('Content-Type', 'application/json');
-    //   res.setHeader('Content-Length', body.length);
-    //   res.end(body);
-    // });
+    Budget.findOne({}, function(err, budget) {
+      res.end(JSON.stringify(budget.toJSON()));
+    });
   });
 
-  app.configure(function(){
-    app.set('view engine', 'ejs');
-    app.set('views', __dirname+'/views');
-
-    app.use(express.methodOverride());
-    app.use(express.bodyParser());
-    app.use(express.static(__dirname + '/public'));
-    app.use(express.errorHandler({
-      dumpExceptions: true, 
-      showStack: true
-    }));
-    app.use(function(req, res, next){
-      console.log('%s %s', req.method, req.url);
-      next();
+  app.post("/api/budget", function(req, res) {
+    new Budget(req.body).save(function() {
+      res.end();
     });
-    app.use(app.router);
+  });
+
+  app.put("/api/budget", function(req, res) {
+    Budget.update({}, {$set: req.body}, {upsert: true}, function(err) {
+      res.end();
+    });
   });
 
   console.log('starting express server...');
-  app.listen(4000);
+  http.createServer(app).listen(4000);
 });

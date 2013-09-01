@@ -2,215 +2,44 @@ define(
 [
 "underscore",
 "moment",
-"backbone"
+"backbone",
+"models/transaction"
 ],
-function(_, moment, Backbone) {
-	var transactions = [{
-			name: 'Salary',
-			amount: 2369,
-			start: moment('2013-01-01'),
-			end: null,
-			type: 'income',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Salary',
-			amount: 2369,
-			start: moment('2013-01-15'),
-			end: null,
-			type: 'income',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Rent',
-			amount: 1403,
-			start: moment('2012-12-26'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Optimum online',
-			amount: 45,
-			start: moment('2013-01-11'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Verizon wireless',
-			amount: 104,
-			start: moment('2013-01-11'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Dollar shave club',
-			amount: 6,
-			start: moment('2013-02-11'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 2
-		}, {
-			name: 'Spotify',
-			amount: 5,
-			start: moment('2013-02-11'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Netflix',
-			amount: 8,
-			start: moment('2013-01-11'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Rackspace',
-			amount: 12,
-			start: moment('2013-01-11'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Weed',
-			amount: 340,
-			start: moment('2013-05-03'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 3
-		}, {
-			name: 'Groceries',
-			amount: 40,
-			start: moment('2013-01-06'),
-			end: null,
-			type: 'expense',
-			unit: 'weeks',
-			every: 1
-		}, {
-			name: 'Laundry',
-			amount: 15,
-			start: moment('2013-01-12'),
-			end: null,
-			type: 'expense',
-			unit: 'weeks',
-			every: 2
-		}, {
-			name: 'Lunch',
-			amount: 40,
-			start: moment('2013-01-04'),
-			end: null,
-			type: 'expense',
-			unit: 'weeks',
-			every: 1
-		}, {
-			name: 'Dinner',
-			amount: 400,
-			start: moment('2013-01-11'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Big loan',
-			amount: 385,
-			start: moment('2013-01-09'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Small loan',
-			amount: 225,
-			start: moment('2013-01-17'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Gym',
-			amount: 90,
-			start: moment('2013-04-11'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Haircut',
-			amount: 17,
-			start: moment('2013-02-20'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 2
-		}, {
-			name: 'Betterment',
-			amount: 375,
-			start: moment('2013-08-05'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Betterment',
-			amount: 375,
-			start: moment('2013-08-20'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Cash',
-			amount: 70,
-			start: moment('2013-01-05'),
-			end: null,
-			type: 'expense',
-			unit: 'weeks',
-			every: 1
-		}, {
-			name: 'Other Amex',
-			amount: 433,
-			start: moment('2013-01-11'),
-			end: null,
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'NJ House',
-			amount: 231,
-			start: moment('2013-07-30'),
-			end: moment('2013-07-31'),
-			type: 'expense',
-			unit: 'months',
-			every: 1
-		}, {
-			name: 'Amazon Prime',
-			amount: 79,
-			start: moment('2013-08-11'),
-			end: null,
-			type: 'expense',
-			unit: 'years',
-			every: 1
-		}
-	];
-
+function(_, moment, Backbone, Transaction) {
 
 	return Backbone.Model.extend({
+		idAttribute: '_id',
+
+		url: function() {
+			return '/api/budget';
+		},
+
+		toJSON: function() {
+			var attribues = Backbone.Model.prototype.toJSON.call(this);
+			delete attribues._id;
+			return attribues;
+		},
+
 		defaults: {
-			currentBalance: 1000,
+			currentBalance: 2000,
 			transactions: new Backbone.Collection([])
+		},
+
+		parse: function(resp) {
+			resp.transactions = _.map(resp.transactions, function(txn) {
+				txn.start && (txn.start = moment(txn.start).startOf('day'));
+				txn.end && (txn.end = moment(txn.end).startOf('day'));
+				return new Transaction(txn);
+			});
+
+			this.get('transactions').reset(resp.transactions);
+			delete resp.transactions;
+
+			return resp;
 		},
 
 		initialize: function() {
 			this._init_data();
-
-			this._transactions = transactions;
 
 			this.on('change:currentBalance', function() {
 				var diff = this.get('currentBalance') - this._previousAttributes['currentBalance'];
@@ -221,21 +50,25 @@ function(_, moment, Backbone) {
 				this.trigger('change:data');
 			});
 
-			this.get('transactions').on('add', function(txn) {
-				var total_change = 0,
-					dates = txn.get('oneTime')
-						? [txn.get('start')]
-						: txn.dates(this.get('start'), this.get('end'));
+			this.get('transactions').on('add', this._on_add_transaction, this);
+			this.get('transactions').on('reset', function(txns) {
+				txns.each(this._on_add_transaction, this);
+			}, this);
+		},
 
-				this._update_data(dates, txn.signedAmount());
+		_on_add_transaction: function(txn) {
+			var total_change = 0,
+				dates = txn.get('oneTime')
+					? [txn.get('start')]
+					: txn.dates(this.get('start'), this.get('end'));
+			this._update_data(dates, txn.signedAmount());
 
-				txn.on('change:amount', function() {
-					var diff = txn.signedAmount() - txn.signedAmount(txn._previousAttributes['amount']);
-						dates = txn.dates(this.get('start'), this.get('end'));
+			txn.on('change:amount', function() {
+				var diff = txn.signedAmount() - txn.signedAmount(txn._previousAttributes['amount']);
+					dates = txn.dates(this.get('start'), this.get('end'));
 
-					this._update_data(dates, diff);
-				}, this);
-
+				this._update_data(dates, diff);
+				this.save({});
 			}, this);
 		},
 

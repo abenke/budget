@@ -8,7 +8,7 @@
     "grunt-contrib-requirejs": "*",
     "grunt-contrib-watch": "*",
     "grunt-compass": "*",
-    "express": "*",
+    "express": "3.*",
     "underscore": "*",
     "mongoose": "*",
     "ejs": "*"

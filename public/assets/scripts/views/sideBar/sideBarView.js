@@ -100,6 +100,7 @@ function ($, _, Marionette, Transaction, TransactionView, AddTransactionView) {
 			clearTimeout(this.currentBalanceTimeout);
 			this.currentBalanceTimeout = setTimeout(function() {
 				self.model.set('currentBalance', parseInt($(e.currentTarget).val()) || 0);
+				self.model.save({});
 			}, 150);
 		},
 
@@ -107,6 +108,7 @@ function ($, _, Marionette, Transaction, TransactionView, AddTransactionView) {
 			this.hideAddTransactionView();
 			this.model.get('transactions').add(this.transaction);
 			this.transaction = undefined;
+			this.model.save({});
 		}
 	});
 });

@@ -65,6 +65,7 @@ function($) {
 			var self = this,
 				w = this.width, h = this.height,
 				x = this.x_margin, y = this.y_margin;
+        	
         	this.chart.append('defs')
             	.append('clipPath')
                 	.attr('id', 'innerGraph')
@@ -94,13 +95,9 @@ function($) {
 
 	        this.vertical = hoverArea.append('path').attr('class', 'vertical');
 
-            $('svg g.hover-area')
-            .on('mousemove', function(e) {
-                onMouseMove(e, self);
-            })
-            .on('mouseout', function(e) {
-                onMouseOut(e, self);
-            });
+            $(this.selector)
+	            .mousemove(function(e) { onMouseMove(e, self); })
+	            .mouseleave(function(e) { onMouseOut(e, self); });
 		},
 
 		_initLine: function() {
@@ -197,11 +194,15 @@ function($) {
             mouseX = offsets.x,
             mouseY = offsets.y;
 
-        // update position of vertical line
-        d3.transition(graph.vertical)
-            .attr('style', 'display: inline; stroke: #333333;')
-            .attr('d', 'M'+mouseX + ',' + graph.height +
-                       'L'+mouseX + ',' + 0);
+        if (mouseY >= 0 && mouseY <= graph.height-2*graph.x_margin) {
+	        // update position of vertical line
+	        d3.transition(graph.vertical)
+	            .attr('style', 'display: inline; stroke: #333333;')
+	            .attr('d', 'M'+mouseX + ',' + graph.height +
+	                       'L'+mouseX + ',' + 0);
+        } else {
+        	onMouseOut(e, graph);
+        }
 
         // // data to get y point for circles
         // var x = graph.x.invert(mouseX), // x in graph unit (ms)
@@ -268,15 +269,7 @@ function($) {
     }
 
     function onMouseOut(e, graph) {
-        var offsets = getMouseOffsets(e, graph),
-            mouseX = offsets.x,
-            mouseY = offsets.y;
-
-        if (mouseX >= graph.width    || mouseX <= 0 ||
-            mouseY >= graph.height-5 || mouseY <= 0) {
-
             hideToolTip(graph);
-        }
     }
 
     function hideToolTip(graph) {

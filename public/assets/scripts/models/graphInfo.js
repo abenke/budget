@@ -56,6 +56,10 @@ function(_, moment, Backbone, Transaction) {
 			}, this);
 		},
 
+		getData: function() {
+			return this._data.toJSON();
+		},
+
 		_on_add_transaction: function(txn) {
 			var total_change = 0,
 				dates = txn.get('oneTime')

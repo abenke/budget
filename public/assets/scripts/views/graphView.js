@@ -30,17 +30,13 @@ function ($, _, Marionette, Graph, Transaction) {
 				x_margin: X_MARGIN,
 				y_margin: Y_MARGIN,
 				selector: '.svg-area',
-				data: this.model._data.pluck('balance'),
+				data: this.model.getData(),
 				windowEnd: this.model.get('end')
 			});
-
-			// _.each(this.model._transactions, function(txn) {
-			// 	this.model.get('transactions').add(new Transaction(txn));
-			// }, this);
 		},
 
 		updateGraph: function() {
-			this.graph.update(this.model._data.pluck('balance'));
+			this.graph.update(this.model.getData());
 		}
 	});
 });

@@ -31,7 +31,7 @@ function($) {
 			this.line = d3.svg.line()
 				.interpolate("step-after")
 	    		.x(function(d,i) { return self.x(i); })
-	    		.y(function(d,i) { return self.y(d); });
+	    		.y(function(d,i) { return self.y(d.balance); });
 		},
 
 		_initAxes : function() {
@@ -127,8 +127,8 @@ function($) {
 
 		_updateScalesDomain: function(data) {
 			var subData = this._subData(data);
-				minY = _.min(subData),
-				maxY = _.max(subData);
+				minY = _.min(subData, function(d) { return d.balance; }).balance,
+				maxY = _.max(subData, function(d) { return d.balance; }).balance;
 
 			this.x.domain([0, this._maxIndex()]);
 			this.y.domain([1.05*maxY, minY * (minY < 0 ? 1.1 : 0.9)]);

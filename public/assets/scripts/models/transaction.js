@@ -22,19 +22,53 @@ function(_, moment, Backbone) {
 		},
 
 		dates: function(windowStart, windowEnd) {
-			var start = this.get('start'),
-				end = this.get('end') || windowEnd,
-				cur = start.clone(),
+			var cur = windowStart.clone(),
 				dates = [];
-
-			while (cur >= start && cur < end) {
-				if (cur >= windowStart) {
+			
+			while (cur >= windowStart && cur <= windowEnd) {
+				if (this.matches(cur)) {
 					dates.push(cur.clone());
 				}
-				cur = cur.add(this.get('unit'), this.get('every'));
+				cur = cur.add('days', 1);
 			}
 
 			return dates;
+		},
+
+		matches: function(date) {
+			return this._match(date, this.get('unit'));
+		},
+
+		_match: function(date, unit) {
+			var specs = this.get('specifics').length ? this.get('specifics') : [moment()];
+
+			return _.reduce(specs, function(any_match, spec) {
+				return any_match || this['_match_'+unit](date, spec, this._diff(unit, date));
+			}, false, this);
+		},
+
+		_match_years: function(date, spec, diff) {
+			return date.isSame(moment(spec)) && this._matches_frequency(diff, this.get('frequency'));
+		},
+
+		_match_months: function(date, spec, diff) {
+			return date.date() == spec && this._matches_frequency(diff, this.get('frequency'));
+		},
+
+		_match_weeks: function(date, spec, diff) {
+			return date.day() == spec && this._matches_frequency(diff, this.get('frequency'));
+		},
+
+		_match_days: function(date, spec, diff) {
+			return this._matches_frequency(diff, this.get('frequency'));
+		},
+
+		_matches_frequency: function(diff, freq) {
+			return diff % freq === 0;
+		},
+
+		_diff: function(unit, date) {
+			return date.diff(moment().startOf('day'), unit);
 		}
 	});
 });

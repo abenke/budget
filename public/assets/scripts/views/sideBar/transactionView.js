@@ -5,6 +5,8 @@ define(
 "marionette"
 ],
 function ($, _, Marionette) {
+	var onces = ['Once', 'Twice', 'Three times', 'Four times', 'Five times'];
+
 	return Marionette.ItemView.extend({
 		
 		template: 'sideBar/transaction',
@@ -13,29 +15,18 @@ function ($, _, Marionette) {
 
 		templateHelpers: {
 			frequency: function() {
-				var s,
-					start = this.start.format('MMM. Do');
-
-				if (this.oneTime) {
-					s = 'one time on '+start;
+				var s = '',
+					one = this.self.model.get('frequency') == 1,
+					unit = this.unit.substr(0, this.unit.length - (one ? 1 : 0));
+					specs = this.specifics;
+				
+				if (specs && specs.length > 1) {
+					s += onces[specs.length-1] + ' a ';
 				} else {
-					s = 'every ';
-
-					var one = this.every == 1;
-					if (!one) {
-						s += this.every + ' ';
-					}
-
-					if (this.unit == 'weeks') {
-						s += this.start.format('dddd').toLowerCase() + (one ? '' : 's');
-					} else {
-						s += this.unit.substr(0, this.unit.length - (one ? 1 : 0));
-					}
-
-					if (this.start > moment()) {
-						s += ' (starting '+start+')';
-					}
+					s += 'Every '+(one ? '' : this.self.model.get('frequency'))+' ';
 				}
+
+				s += unit;
 
 				return s;
 			},

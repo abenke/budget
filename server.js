@@ -14,11 +14,10 @@ db.once('open', function () {
     transactions: [new Schema({
       name: String,
       amount: Number,
-      start: Date,
-      end: Date,
       type: String,
       unit: String,
-      every: Number
+      frequency: Number,
+      specifics: Array
     })]
   }));
 

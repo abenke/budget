@@ -27,8 +27,6 @@ function(_, moment, Backbone, Transaction) {
 
 		parse: function(resp) {
 			resp.transactions = _.map(resp.transactions, function(txn) {
-				txn.start && (txn.start = moment(txn.start).startOf('day'));
-				txn.end && (txn.end = moment(txn.end).startOf('day'));
 				return new Transaction(txn);
 			});
 

@@ -173,10 +173,10 @@ function($) {
             // Part 2
             /////////
 
-            // setTimeout(function() {
-            // 	self.data = data || self.data;
-            // 	path_update.apply(self.chart.select("path.balance").transition().duration(DURATION*2).ease('in'));
-            // }, DURATION);
+            setTimeout(function() {
+            	self.data = data || self.data;
+            	path_update.apply(self.chart.select("path.balance").transition().duration(DURATION*2).ease('in'));
+            }, DURATION);
 		}
 
 	});

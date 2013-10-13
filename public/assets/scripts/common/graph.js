@@ -209,11 +209,12 @@ function($) {
             
             var cur = graph.data[domainX],
                 last = graph.data[domainX-1],
-                diff = cur.balance - last.balance;
+                diff = cur.balance - last.balance,
+                pastHalf = domainX > graph.data.length/2;
 
             d3.transition(graph.hover_text)
                 .attr('style', 'display: inline;')
-                .attr('x', mouseX+graph.x_margin + 5)
+                .attr('x', mouseX+graph.x_margin + (pastHalf ? -130 : 5))
                 .attr('y', 60)
                 .text(diff+' ('+cur.date.format('ddd, MMM. Do')+')');
 

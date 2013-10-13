@@ -203,69 +203,6 @@ function($) {
         } else {
         	onMouseOut(e, graph);
         }
-
-        // // data to get y point for circles
-        // var x = graph.x.invert(mouseX), // x in graph unit (ms)
-        //     d = graph.graphData,
-        //     minX = d[0].x, // min x val in d
-        //     maxX = d[d.length-1].x, // max x val in d
-        //     i = Math.round((C.points-1) * (x - minX) / (maxX - minX)); // transform from data unit (ms) to index of d
-
-        // if (!d[i] || mouseY >= graph.height-5 || mouseY <= 0) {
-        //     onMouseOut(e, graph);
-        // } else {
-        //     // hide current balance tooltip
-        //     graph.hideCurrentBalanceTooltip = true;
-        //     if (graph.$balanceTooltip) {
-        //         graph.$balanceTooltip.hide();
-        //     }
-
-        //     // update avg and poor circles
-        //     if (!graph.opts.hideAvgPoint) {
-        //         d3.transition(graph.avgPoint)
-        //             .style('display', 'inline')
-        //             .attr('cx', mouseX)
-        //             .attr('cy', graph.y(d[i].avg));
-        //     }
-
-        //     if (!graph.opts.hidePoorPoint) {
-        //         d3.transition(graph.poorPoint)
-        //             .style('display', 'inline')
-        //             .attr('cx', mouseX)
-        //             .attr('cy', graph.y(d[i].light0));
-        //     }
-
-        //     // update snapping circle
-        //     if (graph.opts.showSnapPoint) {
-        //         var dollarY = graph.y.invert(mouseY),
-        //             closest;
-
-        //         _.each(graph.snappers, function(snapper) {
-        //             if (!closest || Math.abs(d[i][snapper.line] - dollarY) < Math.abs(d[i][closest.line] - dollarY)) {
-        //                 closest = snapper;
-        //             }
-        //         });
-
-        //         d3.transition(graph.snapPoint)
-        //             .style('display', 'inline')
-        //             .attr('cx', mouseX)
-        //             .attr('cy', graph.y(d[i][closest.line]));
-        //     }
-
-        //     // update tooltip
-        //     graph.$tooltip = $(graph.opts.selector).find('.hover-tooltip');
-        //     offset = mouseX - graph.margin.left - graph.$tooltip.outerWidth();
-
-        //     var leftMargin = graph.margin.left + parseInt($(graph.opts.selector).css('padding-left'));
-        //     graph.$tooltip.css({
-        //         display: 'block',
-        //         left: ((mouseX + leftMargin) - (offset > 0 ? graph.$tooltip.outerWidth()+30 : -30)) + 'px'
-        //     });
-
-        //     graph.$tooltip.html(graph.opts.tooltipContents ? graph.opts.tooltipContents.call(graph, d, x, i, closest) : '');
-
-        //     graph.trigger('change', d[i]);
-        // }
     }
 
     function onMouseOut(e, graph) {
@@ -275,13 +212,6 @@ function($) {
     function hideToolTip(graph) {
         d3.transition(graph.vertical)
             .style('display', 'none');
-
-        // // hide tooltip TODO
-        // if (graph.$tooltip) {
-        //     graph.$tooltip.css({
-        //         display: 'none'
-        //     });
-        // }
     }
 
 	return Graph;

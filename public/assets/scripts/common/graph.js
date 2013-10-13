@@ -66,12 +66,14 @@ function($) {
 				w = this.width, h = this.height,
 				x = this.x_margin, y = this.y_margin;
         	
+            /// create clip path to make sure hover stuff doesnt go outside the graph  
         	this.chart.append('defs')
             	.append('clipPath')
                 	.attr('id', 'innerGraph')
             	.append('path')
                 	.attr('d', 'M '+x+' '+x+' L '+x+' '+(h-x)+' L '+(w-y)+' '+(h-x)+' L '+(w-y)+' '+x);
 
+            // add hover area for mouse events
             this.chart.selectAll('g.hover-area')
             	.data([this.data])
 	            .enter().append('g')
@@ -80,21 +82,26 @@ function($) {
 	            	.attr('width', w-2*y)
 	            	.attr('height', h-2*x);
 
+            // without this it would only pick up when the mouse is on a line
+            // we want to capture mouse events even if hte pointer is on top of nothing
 	        this.bgArea = d3.svg.area()
 	            .x(function(d, i) { return self.x(i); })
 	            .y0(h-x)
 	            .y1(x);
 
+            // add the background area to the hover area
 	        var hoverArea = this.chart.select('g.hover-area');
-
 	        hoverArea.append('path')
 	            .attr('class', 'bg')
 	            .attr('style', 'stroke: none; fill: #ffffff;')
 	            .attr('d', this.bgArea)
 	            .attr("clip-path", "url(#innerGraph)");
 
+            // add vertical line and hover text to hover area
 	        this.vertical = hoverArea.append('path').attr('class', 'vertical');
+            this.hover_text = hoverArea.append('text').attr('class', 'hover-text');
 
+            // attach mouse events with jQuery
             $(this.selector)
 	            .mousemove(function(e) { onMouseMove(e, self); })
 	            .mouseleave(function(e) { onMouseOut(e, self); });
@@ -184,7 +191,7 @@ function($) {
     // Firefox doesn't support offsetX and Y, have to use pageX and Y and offset manually
     function getMouseOffsets(e, graph) {
         return {
-            x: !isNaN(e.offsetX) ? e.offsetX  : e.pageX - $(e.target).offset().left - 6,
+            x: !isNaN(e.offsetX) ? e.offsetX - graph.x_margin  : e.pageX - $(e.target).offset().left - 6,
             y: !isNaN(e.offsetY) ? e.offsetY - graph.x_margin  : e.pageY - $(e.target).offset().top - 6
         };
     }
@@ -194,23 +201,43 @@ function($) {
             mouseX = offsets.x,
             mouseY = offsets.y;
 
-        if (mouseY >= 0 && mouseY <= graph.height-2*graph.x_margin) {
+        // if inside graph redraw stuff
+        if (mouseY >= 0 && mouseY <= graph.height-2*graph.x_margin &&
+            mouseX >= 1 && mouseX <= graph.width-graph.y_margin-graph.x_margin) {
+
+            var domainX = Math.min(Math.max(Math.floor(graph.x.invert(mouseX+graph.x_margin)), 0), graph._maxIndex());
+            
+            var cur = graph.data[domainX],
+                last = graph.data[domainX-1],
+                diff = cur.balance - last.balance;
+
+            d3.transition(graph.hover_text)
+                .attr('style', 'display: inline;')
+                .attr('x', mouseX+graph.x_margin + 5)
+                .attr('y', 60)
+                .text(diff+' ('+cur.date.format('ddd, MMM. Do')+')');
+
 	        // update position of vertical line
 	        d3.transition(graph.vertical)
 	            .attr('style', 'display: inline; stroke: #333333;')
-	            .attr('d', 'M'+mouseX + ',' + graph.height +
-	                       'L'+mouseX + ',' + 0);
+	            .attr('d', 'M'+(mouseX+graph.x_margin) + ',' + graph.height +
+	                       'L'+(mouseX+graph.x_margin) + ',' + 0);
+        
+        // out of bounds, hide stuff
         } else {
         	onMouseOut(e, graph);
         }
     }
 
     function onMouseOut(e, graph) {
-            hideToolTip(graph);
+            hideHovers(graph);
     }
 
-    function hideToolTip(graph) {
+    function hideHovers(graph) {
         d3.transition(graph.vertical)
+            .style('display', 'none');
+
+        d3.transition(graph.hover_text)
             .style('display', 'none');
     }
 

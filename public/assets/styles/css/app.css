@@ -7536,6 +7536,9 @@ path {
 path.vertical {
   stroke-width: 2px;
 }
+path.hover-text {
+  fill: black;
+}
 
 line {
   stroke: black;

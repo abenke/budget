@@ -97,6 +97,10 @@ path {
     &.vertical {
         stroke-width: 2px;
     }
+
+    &.hover-text {
+        fill: black;
+    }
 }
  
 line {

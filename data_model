@@ -1,0 +1,21 @@
+just some notes to help me flesh out how i can support all potential types of frequencies
+
+1. every blank blanks (every 2 months)
+	- unit (months, weeks, years, days)
+	- frequency (number)
+	- date_info
+		- number 1..28 (months)
+		- enum 1..7 (weeks)
+		- calendar date (years)
+		- calendar date (days)
+
+2. blank a blank (twice a month, 3 times a week)
+	- unit (months, weeks, years)
+	- frequeny always 1
+	-date_info
+		- [number 1..28] (months)
+		- [enum 1..7] (weeks)
+		- [calendar date] (years)
+
+3. once
+	- calendar date

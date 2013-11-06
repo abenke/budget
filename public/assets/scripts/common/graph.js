@@ -1,9 +1,10 @@
 define(
 [
 "jquery",
+"common/formatter",
 "d3"
 ],
-function($) {
+function($, F) {
 	var DURATION = 250;
 
 	var Graph = function(options) {
@@ -210,13 +211,16 @@ function($) {
             var cur = graph.data[domainX],
                 last = graph.data[domainX-1],
                 diff = cur.balance - last.balance,
-                pastHalf = domainX > graph.data.length/2;
+                pastHalf = domainX > graph.data.length/2,
+                diffText = F.money(diff, 0),
+                dateText = cur.date.format('ddd, MMM. Do'),
+                balText = F.money(cur.balance, 0);
 
             d3.transition(graph.hover_text)
                 .attr('style', 'display: inline;')
-                .attr('x', mouseX+graph.x_margin + (pastHalf ? -130 : 5))
+                .attr('x', mouseX+graph.x_margin + (pastHalf ? -220 : 5))
                 .attr('y', 60)
-                .text(diff+' ('+cur.date.format('ddd, MMM. Do')+')');
+                .text(balText + '  ('+diffText+' on '+dateText+')');
 
 	        // update position of vertical line
 	        d3.transition(graph.vertical)

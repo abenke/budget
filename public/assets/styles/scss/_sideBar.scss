@@ -53,7 +53,7 @@
 					display: none;
 
 					.input-line {
-						margin: 10px 0;
+						margin: 8px 0;
 						@include clearfix();
 
 						h2 {
@@ -78,6 +78,10 @@
 					.frequency-region {
 						display: none;
 
+						.input-line:first-child {
+							margin-top: 0;
+						}
+
 						input[type="number"] {
 							width: 40px;
 						}
@@ -90,6 +94,10 @@
 							float: right;
 							@include clearfix();
 							width: 154px;
+
+							input {
+								height: 20px;
+							}
 						}
 
 						.input-append.date {
@@ -99,13 +107,20 @@
 							}
 						}
 
-						.datepicker-inline {
-							width: 185px;
-							margin: 0 auto;
+						.spec-input {
+							.datepicker {
+								margin: 0 auto;
+								thead {
+									display: none;
+								}
 
-							.table-condensed {
-								th, td {
-									padding: 0;
+								td {
+									width: 15px;
+									padding: 2px 7px;
+
+									&.old, &.new {
+										visibility: hidden;
+									}
 								}
 							}
 						}

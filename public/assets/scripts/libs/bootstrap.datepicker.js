@@ -76,6 +76,10 @@ define(['bootstrap'], function() {
 		this.setEndDate(this.o.endDate);
 		this.setDaysOfWeekDisabled(this.o.daysOfWeekDisabled);
 
+		this.multiSelect = this.o.multiSelect;
+		this.dates = [];
+		this.viewDates = [];
+
 		this.fillDow();
 		this.fillMonths();
 
@@ -442,7 +446,19 @@ define(['bootstrap'], function() {
 				date.getUTCDate() == today.getDate()) {
 				cls.push('today');
 			}
-			if (currentDate && date.valueOf() == currentDate) {
+
+			var has_multi_select_date = false;
+			if (this.multiSelect) {
+				for (var i=0; i<this.dates.length; i++) {
+					var the_date = this.dates[i];
+					if (date.valueOf() == the_date.valueOf()) {
+						has_multi_select_date = true;
+						break;
+					}
+				}
+			}
+
+			if (currentDate && (date.valueOf() == currentDate || has_multi_select_date)) {
 				cls.push('active');
 			}
 			if (date.valueOf() < this.o.startDate || date.valueOf() > this.o.endDate ||
@@ -696,7 +712,22 @@ define(['bootstrap'], function() {
 									month += 1;
 								}
 							}
-							this._setDate(UTCDate(year, month, day,0,0,0,0));
+
+							var newDate = UTCDate(year, month, day,0,0,0,0);
+
+							if (this.multiSelect && target.is('.active')) {
+								var new_dates = [];
+								for (var i=0; i<this.dates.length; i++) {
+									if (this.dates[i].valueOf() != newDate.valueOf()) {
+										new_dates.push(this.dates[i]);
+									}
+								}
+								this.dates = new_dates;
+								target.removeClass('active');
+								return;
+							} else {
+								this._setDate(newDate);
+							}
 						}
 						break;
 				}
@@ -704,8 +735,12 @@ define(['bootstrap'], function() {
 		},
 
 		_setDate: function(date, which){
-			if (!which || which == 'date')
+			if (!which || which == 'date') {
 				this.date = new Date(date);
+				if (this.multiSelect) {
+					(this.dates = this.dates || []).push(this.date);
+				}
+			}
 			if (!which || which  == 'view')
 				this.viewDate = new Date(date);
 			this.fill();

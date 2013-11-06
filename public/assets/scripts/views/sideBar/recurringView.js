@@ -118,12 +118,11 @@ function ($, _, Marionette) {
 			// prevents jump with slideDown due to margin collapse
 			style: 'padding: 1px 0;'
 		},
-		
+
 		ui: {
 			everyInput: 'input[name="every"]',
 			unitSelector: '.unit-selector',
-			startPicker: '.start.datepicker',
-			endPicker: '.end.datepicker'
+            specInput: '.spec-input'
 		},
 
 		events: {
@@ -158,13 +157,7 @@ function ($, _, Marionette) {
         },
 
 		onShow: function() {
-			var self = this;
-
 			this.changeUnit();
-			var setDate = function(a) { return function(e) { self.model.set(a, moment(e.date)); } };
-			_.each({startPicker:'start', endPicker:'end'}, function(attr, picker) {
-				this.ui[picker].datepicker().on('changeDate', setDate(attr));
-			}, this);
 		},
 
 		changeEvery: function(e) {
@@ -172,8 +165,15 @@ function ($, _, Marionette) {
 		},
 
 		changeUnit: function(e) {
-			var val = this.ui.unitSelector.find('input').val();
-			this.model.set('unit', val.toLowerCase());
+			var val = this.ui.unitSelector.find('input').val().toLowerCase();
+			this.model.set('unit', val);
+
+            this.ui.specInput
+                .datepicker({
+                    multiSelect: true
+                }).on('changeDate', function(e) {
+                        console.log('picked', e.date);
+                    });
 		}
 	});
 });

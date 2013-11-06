@@ -34,6 +34,10 @@ body {
 	}
 }
 
+hr {
+    margin: 15px 0;
+}
+
 h2 {
 	line-height: 16px;
 	font-size: 16px;
@@ -102,7 +106,7 @@ path {
         fill: black;
     }
 }
- 
+
 line {
     stroke: black;
 }
@@ -111,7 +115,7 @@ line {
 	stroke: gray;
 	stroke-width: 0.5;
 }
- 
+
 text {
     font-family: Arial;
     font-size: 9pt;

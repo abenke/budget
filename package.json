@@ -4,9 +4,9 @@
   "version": "0.0.1",
   "dependencies": {
     "grunt": "*",
-    "grunt-notify": "*",
-    "grunt-contrib-requirejs": "*",
-    "grunt-contrib-watch": "*",
+    "grunt-notify": "0.2.4",
+    "grunt-requirejs": "*",
+    "grunt-contrib-watch": "0.4.3",
     "grunt-compass": "*",
     "express": "*",
     "underscore": "*",

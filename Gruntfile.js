@@ -2,13 +2,11 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     watch: {
-      styles: {
-        files: ['public/assets/styles/scss/*.scss'],
-        tasks: ['compass:compile', 'notify:watch']
-      }
+      files: ['public/assets/styles/scss/*.scss'],
+      tasks: ['compass:compile', 'notify:watch']
     },
 
-    compass: {  
+    compass: {
       compile: {
         src: 'public/assets/styles/scss',
         dest: 'public/assets/styles/css',
@@ -22,15 +20,15 @@ module.exports = function(grunt) {
 
     notify: {
       watch: {
-        options: {
-          title: 'CSS compiled'
-        }
+          options: {
+              message: 'SASS and Uglify finished running'
+          }
       }
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-requirejs');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-requirejs');
   grunt.loadNpmTasks('grunt-compass');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-notify');
 };

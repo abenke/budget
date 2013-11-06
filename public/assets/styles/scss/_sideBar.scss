@@ -78,6 +78,10 @@
 					.frequency-region {
 						display: none;
 
+						.datepicker {
+							margin: 0 auto;
+						}
+
 						.input-line:first-child {
 							margin-top: 0;
 						}
@@ -109,7 +113,6 @@
 
 						.spec-input {
 							.datepicker {
-								margin: 0 auto;
 								thead {
 									display: none;
 								}

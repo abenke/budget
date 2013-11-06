@@ -12,7 +12,7 @@ function(_, moment, Backbone) {
 
 		signedAmount: function(amount) {
 			var sign = this.get('type') == 'expense' ? -1 : 1;
-			return sign * (amount === 0 ? 0 : (amount || this.get('amount'))); 
+			return sign * (amount === 0 ? 0 : (amount || this.get('amount')));
 		},
 
 		toJSON: function() {
@@ -24,7 +24,7 @@ function(_, moment, Backbone) {
 		dates: function(windowStart, windowEnd) {
 			var cur = windowStart.clone(),
 				dates = [];
-			
+
 			while (cur >= windowStart && cur <= windowEnd) {
 				if (this.matches(cur)) {
 					dates.push(cur.clone());
@@ -45,6 +45,10 @@ function(_, moment, Backbone) {
 			return _.reduce(specs, function(any_match, spec) {
 				return any_match || this['_match_'+unit](date, spec, this._diff(unit, date));
 			}, false, this);
+		},
+
+		_match_one_time: function(date, spec, diff) {
+			return date.isSame(moment(spec))
 		},
 
 		_match_years: function(date, spec, diff) {

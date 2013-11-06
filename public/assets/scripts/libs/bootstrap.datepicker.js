@@ -724,6 +724,7 @@ define(['bootstrap'], function() {
 								}
 								this.dates = new_dates;
 								target.removeClass('active');
+								this._trigger('changeDate');
 								return;
 							} else {
 								this._setDate(newDate);

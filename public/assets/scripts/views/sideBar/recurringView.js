@@ -161,7 +161,7 @@ function ($, _, Marionette) {
 		},
 
 		changeEvery: function(e) {
-			this.model.set('every', parseInt(this.ui.everyInput.val()) || 1);
+			this.model.set('frequency', parseInt(this.ui.everyInput.val()) || 1);
 		},
 
 		changeUnit: function(e) {
@@ -172,8 +172,11 @@ function ($, _, Marionette) {
                 .datepicker({
                     multiSelect: true
                 }).on('changeDate', function(e) {
-                        console.log('picked', e.date);
-                    });
+                    var dates = this.ui.specInput.data('datepicker').dates;
+                    this.model.set('specifics', _.map(dates, function(d) {
+                        return d.getUTCDate();
+                    }));
+                }.bind(this));
 		}
 	});
 });

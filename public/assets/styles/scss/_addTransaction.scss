@@ -1,0 +1,28 @@
+// sass scopes all vars globally, so, to avoid future collisions, we need to fully qualify it
+$add-txn-li-height: 56px;
+
+.add-transaction {
+    height: 200px;
+
+    ul {
+        margin: 0;
+        width: 100%;
+
+        li {
+            padding: 5px;
+            height: $add-txn-li-height;
+            line-height: $add-txn-li-height;
+            color: $color-text;
+
+            &:hover {
+                cursor: pointer;
+                color: white;
+                background: $color-tint;
+            }
+
+            .number {
+                font-size: 20px;
+            }
+        }
+    }
+}

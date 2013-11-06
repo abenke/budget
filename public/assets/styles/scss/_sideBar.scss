@@ -33,7 +33,7 @@
 				}
 			}
 
-			& > .add-transaction {
+			& > .add-transaction-area {
 				text-align: center;
 
 				button.add-txn {
@@ -51,65 +51,6 @@
 				.add-transaction-region {
 					margin-top: 20px;
 					display: none;
-
-					.input-line {
-						margin: 10px 0;
-						@include clearfix();
-
-						h2 {
-							height: 20px;
-							line-height: 20px;
-						}
-
-						input {
-							text-align: right;
-							width: 140px;
-
-							&[name="amount"] {
-								margin-left: 3px;
-							}
-						}
-
-						button.once {
-							width: 66px;
-						}
-					}
-
-					.frequency-region {
-						display: none;
-
-						input[type="number"] {
-							width: 40px;
-						}
-
-						.dropdown-label {
-							width: 47px;
-						}
-
-						.every-section {
-							float: right;
-							@include clearfix();
-							width: 154px;
-						}
-
-						.input-append.date {
-							padding: 0;
-							input {
-								width: 100px;
-							}
-						}
-
-						.datepicker-inline {
-							width: 185px;
-							margin: 0 auto;
-
-							.table-condensed {
-								th, td {
-									padding: 0;
-								}
-							}
-						}
-					}
 				}
 
 				button.add {

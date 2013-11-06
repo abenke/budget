@@ -1,33 +1,26 @@
-<div class="input-line">
-	<h2 class="left">Name</h2>
-	<div class="right">
-		<input type="text" name="name"/>
-	</div>
-</div>
-
-<div class="input-line">
-	<h2 class="left">Type</h2>
-	<div class="right btn-group type" data-toggle="buttons-radio">
-		<button type="button" class="btn btn-success">Income</button>
-		<button type="button" class="btn btn-danger">Expense</button>
-	</div>
-</div>
-
-<div class="input-line">
-	<h2 class="left">Amount</h2>
-	<div class="right">
-		$<input type="number" name="amount" min="1" />
-	</div>
-</div>
-
-<div class="input-line">
-	<h2 class="left">Time</h2>
-	<div class="right">
-		<div class="right btn-group time" data-toggle="buttons-radio">
-		<button type="button" class="btn once">Once</button>
-		<button type="button" class="btn recurring">Recurring</button>
-	</div>
-	</div>
-</div>
-
-<div class="frequency-region"></div>
+<ul>
+	<li class="clearfix">
+		<span class="number left">1.</span>
+		<span class="details">
+			Every
+			<select class="frequency">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+			</select>
+			<select>
+				<option value="1">Months</option>
+				<option value="2">Weeks</option>
+				<option value="3">Days</option>
+			</select>
+		</span>
+	</li>
+	<li class="clearfix">
+		<span class="number left">2.</span>
+		<span class="details">Twice a Month</span>
+	</li>
+	<li class="clearfix">
+		<span class="number left">3.</span>
+		<span class="details">One time transaction</span>
+	</li>
+</ul>

@@ -13,6 +13,7 @@
 @import "_common";
 
 @import "_sideBar";
+@import "_addTransaction";
 @import "_graphArea";
 
 body {
@@ -102,7 +103,7 @@ path {
         fill: black;
     }
 }
- 
+
 line {
     stroke: black;
 }
@@ -111,7 +112,7 @@ line {
 	stroke: gray;
 	stroke-width: 0.5;
 }
- 
+
 text {
     font-family: Arial;
     font-size: 9pt;

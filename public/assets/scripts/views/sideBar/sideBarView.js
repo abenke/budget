@@ -15,7 +15,7 @@ function ($, _, Marionette, Transaction, TransactionView, AddTransactionView) {
 
 		ui: {
 			currentBalance: "input[name=currentBalance]",
-			addTxnArea: ".add-transaction",
+			addTxnArea: ".add-transaction-area",
 			addTxnRegion: ".add-transaction-region",
 			addTxnButton: "button.add-txn",
 			addButton: "button.add",

@@ -60,8 +60,8 @@ function(_, moment, Backbone, Transaction) {
 
 		_on_add_transaction: function(txn) {
 			var total_change = 0,
-				dates = txn.get('oneTime')
-					? [txn.get('start')]
+				dates = txn.isOneTime()
+					? [moment(txn.get('specifics')[0])]
 					: txn.dates(this.get('start'), this.get('end'));
 			this._update_data(dates, txn.signedAmount());
 

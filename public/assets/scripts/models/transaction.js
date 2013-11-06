@@ -35,6 +35,10 @@ function(_, moment, Backbone) {
 			return dates;
 		},
 
+		isOneTime: function() {
+			return this.get('unit') == 'one_time';
+		},
+
 		matches: function(date) {
 			return this._match(date, this.get('unit'));
 		},

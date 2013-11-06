@@ -94,12 +94,11 @@ function ($, _, Marionette, Transaction, TransactionView, AddTransactionView) {
 		},
 
 		onCurrentBalanceChange: function(e) {
-			var self = this;
 			clearTimeout(this.currentBalanceTimeout);
 			this.currentBalanceTimeout = setTimeout(function() {
-				self.model.set('currentBalance', parseInt($(e.currentTarget).val()) || 0);
-				self.model.save({});
-			}, 150);
+				this.model.set('currentBalance', parseInt($(e.currentTarget).val()) || 0);
+				this.model.save({});
+			}.bind(this), 150);
 		},
 
 		addTransaction: function() {

@@ -9,10 +9,10 @@ define(
 ],
 function ($, _, Marionette, Transaction, TransactionView, AddTransactionView) {
 	return Marionette.Layout.extend({
-		
+
 		template: 'sideBar/sideBar',
 		className: 'side-bar',
-		
+
 		ui: {
 			currentBalance: "input[name=currentBalance]",
 			addTxnArea: ".add-transaction",
@@ -46,49 +46,47 @@ function ($, _, Marionette, Transaction, TransactionView, AddTransactionView) {
 		},
 
 		showAddTransactionView: function(e) {
-			var self = this;
-
-			if (this.animating) {
-				return;
-			}
-
+			// standard animation stuff
+			if (this.animating) { return; }
 			this.animating = true;
 
+			// create new transaction and show the view with the form for the transaction
 			this.transaction = new Transaction();
-			this.addTransactionRegion.show(new AddTransactionView({ model: this.transaction }));
-			
+			this.addTransactionRegion.show(new AddTransactionView({
+				model: this.transaction
+			}));
+
+			// animate in the form
 			this.ui.addTxnButton.fadeOut();
 			this.ui.addTxnArea.animate({height: '200px'}, function() {
-				self.ui.addTxnArea.css('height', 'auto');
-				self.ui.addTxnRegion.fadeIn();
-				self.ui.addButton.fadeIn();
-				self.ui.closeButton.fadeIn(function() {
-					self.animating = false;
-				});
-			});
+				this.ui.addTxnArea.css('height', 'auto');
+				this.ui.addTxnRegion.fadeIn();
+				this.ui.addButton.fadeIn();
+				this.ui.closeButton.fadeIn(function() {
+					this.animating = false;
+				}.bind(this));
+			}.bind(this));
 		},
 
 		hideAddTransactionView: function() {
-			var self = this;
-
-			if (this.animating) {
-				return;
-			}
-
+			// standard animation stuff
+			if (this.animating) { return; }
 			this.animating = true;
 
 
+			// fade out form
 			this.ui.addTxnRegion.fadeOut();
 			this.ui.addButton.fadeOut();
 			this.ui.closeButton.fadeOut();
 
+			// close form and animate in button to reopen form
 			this.ui.addTxnArea.css('height', this.ui.addTxnArea.height());
 			this.ui.addTxnArea.animate({height: '30px'}, function() {
-				self.addTransactionRegion.close();
-				self.ui.addTxnButton.fadeIn(function() {
-					self.animating = false;
-				});
-			});
+				this.addTransactionRegion.close();
+				this.ui.addTxnButton.fadeIn(function() {
+					this.animating = false;
+				}.bind(this));
+			}.bind(this));
 		},
 
 		onShow: function() {

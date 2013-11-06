@@ -60,14 +60,19 @@ db.once('open', function () {
   app.get("/api/budget", function(req, res) {
     // for now, get the first budget in the db
     Budget.findOne({}, function(err, budget) {
-      res.end(JSON.stringify(budget.toJSON()));
+      if (budget) {
+        res.end(JSON.stringify(budget.toJSON()));
+      } else {
+        res.statusCode = 404;
+        res.end();
+      }
     });
   });
 
   // endpoint to create a new budget
   app.post("/api/budget", function(req, res) {
-    new Budget(req.body).save(function() {
-      res.end();
+    new Budget(req.body).save(function(err, budget) {
+      res.end(JSON.stringify(budget.toJSON()));
     });
   });
 

@@ -25,7 +25,7 @@ function($, F) {
 		_initScales: function() {
 			this.x = d3.scale.linear();
 			this.y = d3.scale.linear();
-			
+
 			this._updateScalesRange();
 			this._updateScalesDomain();
 
@@ -66,8 +66,8 @@ function($, F) {
 			var self = this,
 				w = this.width, h = this.height,
 				x = this.x_margin, y = this.y_margin;
-        	
-            /// create clip path to make sure hover stuff doesnt go outside the graph  
+
+            /// create clip path to make sure hover stuff doesnt go outside the graph
         	this.chart.append('defs')
             	.append('clipPath')
                 	.attr('id', 'innerGraph')
@@ -141,7 +141,7 @@ function($, F) {
 			this.x.domain([0, this._maxIndex()]);
 			this.y.domain([1.05*maxY, minY * (minY < 0 ? 1.1 : 0.9)]);
 		},
-		
+
 		_maxIndex: function() {
 			return Math.round(this.windowEnd.diff(this.now)/(1000*60*60*24));
 		},
@@ -159,7 +159,7 @@ function($, F) {
 			var self = this;
 
 			this.data = data || this.data;
-			
+
 			// Part 1
 			/////////
 
@@ -171,7 +171,7 @@ function($, F) {
 
             // animate
             _.each({
-            	"g.x-axis": function() { this.call(self.xAxis); }, 
+            	"g.x-axis": function() { this.call(self.xAxis); },
             	"g.y-axis": function() { this.call(self.yAxis); },
             	"path.balance": (path_update = function() { this.attr('d', self.line(self._subData())); }) // use old data
             }, function(func, selector) {
@@ -206,8 +206,8 @@ function($, F) {
         if (mouseY >= 0 && mouseY <= graph.height-2*graph.x_margin &&
             mouseX >= 1 && mouseX <= graph.width-graph.y_margin-graph.x_margin) {
 
-            var domainX = Math.min(Math.max(Math.floor(graph.x.invert(mouseX+graph.x_margin)), 0), graph._maxIndex());
-            
+            var domainX = Math.min(Math.max(Math.floor(graph.x.invert(mouseX+graph.x_margin)), 1), graph._maxIndex());
+
             var cur = graph.data[domainX],
                 last = graph.data[domainX-1],
                 diff = cur.balance - last.balance,
@@ -227,7 +227,7 @@ function($, F) {
 	            .attr('style', 'display: inline; stroke: #333333;')
 	            .attr('d', 'M'+(mouseX+graph.x_margin) + ',' + graph.height +
 	                       'L'+(mouseX+graph.x_margin) + ',' + 0);
-        
+
         // out of bounds, hide stuff
         } else {
         	onMouseOut(e, graph);

@@ -39,7 +39,7 @@ function ($, _, Backbone, Marionette, GraphInfo, GraphView, SideBarView) {
 
         // download the budget from the server
         App.graphInfo.fetch({
-            success: function() {
+            complete: function() {
                 // show the views in their respective regions with the data we just downloaded
                 App.sideBar.show(new SideBarView({ model: App.graphInfo }));
                 App.graphArea.show(new GraphView({ model: App.graphInfo }));

@@ -36,7 +36,8 @@ db.once('open', function () {
     app.set('views', __dirname+'/views');
 
     app.use(express.methodOverride());
-    app.use(express.bodyParser());
+    app.use(express.json());
+    app.use(express.urlencoded());
 
     // serves frontend application
     app.use(express.static('public'));
